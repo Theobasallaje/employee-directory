@@ -40,9 +40,9 @@ export default function ButtonAppBar() {
   // const classes = useStyles();
   return (
     // <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1, marginBottom: 15 }}>
         {/* <AppBar position="sticky" className={classes.header}> */}
-        <AppBar position="sticky">
+        <AppBar position="fixed">
           <StyledToolbar>
           <img style={{width: 200}} src={`${process.env.PUBLIC_URL}/images/postlight-logo-1480-x-512.png`} alt={'PostLight Logo'}/>
             {/* <IconButton
