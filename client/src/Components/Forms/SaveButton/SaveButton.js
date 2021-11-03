@@ -34,14 +34,14 @@ const theme = createTheme({
 //   },
 // });
 
-export default function SaveButton() {
+export default function SaveButton(props) {
   // const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
       {/* <Box className={classes.root}> */}
       {/* <Box> */}
         <Stack direction="row" spacing={2}>
-          <Button variant="outlined" startIcon={<SaveIcon />}>
+          <Button onClick={props.handleSave} variant="outlined" startIcon={<SaveIcon />}>
             Save
           </Button>
         </Stack>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
   FormGroup,
@@ -25,14 +25,43 @@ const theme = createTheme({
 });
 
 function AddEmployee(props) {
+
+  const [employee, setEmployee] = useState({});
+
   useEffect(() => {
     props.handleNavButton('home')
   }, []);
 
+  const handleSave = (e) => {
+    console.log(employee);
+    fetch('/api/employees', {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(employee),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  const handleChange = (e) => {
+    console.log(e.target.name);
+    setEmployee({
+      ...employee,
+      [e.target.name]: e.target.value,
+    })
+  }
+
   // const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <AppBar navButton={'back'}/>
+      <AppBar navButton={'back'} />
       <Container
         sx={{
           display: "flex",
@@ -47,30 +76,33 @@ function AddEmployee(props) {
         </Typography>
         <FormGroup>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="name">Name</InputLabel>
-            <Input id="name" />
+            <InputLabel htmlFor="firstName">First Name</InputLabel>
+            <Input id="firsName" name='firstName' onChange={handleChange} />
           </FormControl>
-
+          <FormControl sx={{ marginBottom: 5 }}>
+            <InputLabel htmlFor="lastName">Last Name</InputLabel>
+            <Input id="lastName" name='lastName' onChange={handleChange} />
+          </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
             <InputLabel htmlFor="title">Job Title</InputLabel>
-            <Input id="title" />
+            <Input id="title" name='title' onChange={handleChange} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
             <InputLabel htmlFor="department">Department</InputLabel>
-            <Input id="department" />
+            <Input id="department" name='department' onChange={handleChange} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="jobTitle">Email address</InputLabel>
-            <Input id="jobTitle" aria-describedby="my-helper-text" />
+            <InputLabel htmlFor="email">Email address</InputLabel>
+            <Input id="email" name='email' onChange={handleChange} aria-describedby="my-helper-text" />
             <FormHelperText id="my-helper-text">
               We'll never share your email.
             </FormHelperText>
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="dateStarted">Date Started</InputLabel>
-            <Input id="dateStarted" />
+            <InputLabel htmlFor="location">Location</InputLabel>
+            <Input id="location" name='location' onChange={handleChange} />
           </FormControl>
-          <SaveButton />
+          <SaveButton handleSave={handleSave} />
         </FormGroup>
       </Container>
     </ThemeProvider>
