@@ -1,4 +1,5 @@
-import * as React from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
 import {
   FormGroup,
   FormControl,
@@ -7,11 +8,13 @@ import {
   FormHelperText,
   Container,
 } from "@mui/material";
+import AppBar from "../../AppBar/AppBar";
 import SaveButton from "../SaveButton/SaveButton";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { grey } from "@mui/material/colors";
+import { handleNavButton } from "../../../actions";
 
 const theme = createTheme({
   palette: {
@@ -21,16 +24,21 @@ const theme = createTheme({
   },
 });
 
-export default function AddEmployee() {
+function AddEmployee(props) {
+  useEffect(() => {
+    props.handleNavButton('home')
+  }, []);
+
   // const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
+      <AppBar navButton={'back'}/>
       <Container
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          height: "98vh",
+          height: "85vh",
         }}
       >
         {/* <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}> */}
@@ -68,3 +76,11 @@ export default function AddEmployee() {
     </ThemeProvider>
   );
 }
+
+const mapStateToProps = (state) => ({
+  navButton: state.buttons.navButton,
+});
+
+export default connect(mapStateToProps, {
+  handleNavButton,
+})(AddEmployee);

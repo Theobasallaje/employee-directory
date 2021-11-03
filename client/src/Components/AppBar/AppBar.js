@@ -1,15 +1,19 @@
 import * as React from "react";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
-import { styled } from '@mui/material/styles';
+import { styled } from "@mui/material/styles";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import AddButton from "../Buttons/Add/AddButton";
+import HomeButton from "../Buttons/Home/HomeButton";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { handleNavButton } from "../../actions/index";
 
 // const theme = createTheme({
 //   palette: {
@@ -31,21 +35,21 @@ import MenuIcon from "@mui/icons-material/Menu";
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   // backgroundColor: "#FF002E",
-  backgroundColor: 'white',
-  display: 'flex',
-  justifyContent: 'space-between'
+  backgroundColor: "white",
+  display: "flex",
+  justifyContent: "space-between",
 }));
 
-export default function ButtonAppBar() {
+function NavBar({ navButton, handleNavButton }) {
   // const classes = useStyles();
   return (
     // <ThemeProvider theme={theme}>
-      <Box sx={{ flexGrow: 1, marginBottom: 15 }}>
-        {/* <AppBar position="sticky" className={classes.header}> */}
-        <AppBar position="fixed">
-          <StyledToolbar>
+    <Box sx={{ flexGrow: 1, marginBottom: 15 }}>
+      {/* <AppBar position="sticky" className={classes.header}> */}
+      <AppBar position="fixed">
+        <StyledToolbar>
           <img style={{width: 200}} src={`${process.env.PUBLIC_URL}/images/postlight-logo-1480-x-512.png`} alt={'PostLight Logo'}/>
-            {/* <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
@@ -54,14 +58,44 @@ export default function ButtonAppBar() {
           >
             <MenuIcon />
           </IconButton> */}
-            {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               PostLight
             </Typography> */}
-            {/* <Button color="inherit">Login</Button> */}
-            <AddButton />
-          </StyledToolbar>
-        </AppBar>
-      </Box>
+          {/* <Button color="inherit">Login</Button> */}
+          {navButton === "add" ? (
+            <Link
+              style={{ textDecoration: "none" }}
+              onClick={(e) => {
+                // e.stopPropagation();
+                handleNavButton("home");
+              }}
+              to="/add"
+            >
+              <AddButton />
+            </Link>
+          ) : (
+            <Link
+              style={{ textDecoration: "none" }}
+              onClick={(e) => {
+                // e.stopPropagation();
+                handleNavButton("add");
+              }}
+              to="/"
+            >
+              <HomeButton />
+            </Link>
+          )}
+        </StyledToolbar>
+      </AppBar>
+    </Box>
     //</ThemeProvider>
   );
 }
+
+const mapStateToProps = (state) => ({
+  navButton: state.buttons.navButton,
+});
+
+export default connect(mapStateToProps, {
+  handleNavButton,
+})(NavBar);
