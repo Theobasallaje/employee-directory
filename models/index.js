@@ -1,3 +1,3 @@
 module.exports = {
-    Piece: require('./employee'),
+    Employee: require('./employee'),
 }
