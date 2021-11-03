@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -9,15 +9,19 @@ import Card from "../../Components/Card/Card";
 import Search from "../../Components/Search/Search";
 import { handleNavButton } from "../../actions";
 
-const Item = styled(Card)(({ theme }) => ({
-  ...theme.typography.body2,
-  // padding: theme.spacing(2),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+// const Item = styled(Card)(({ theme }) => ({
+//   ...theme.typography.body2,
+//   // padding: theme.spacing(2),
+//   textAlign: "center",
+//   color: theme.palette.text.secondary,
+// }));
 
 function Home(props) {
+
+  const [employees, setEmployees] = useState([]); 
+
   useEffect(() => {
+    fetch('/api/employees').then(res => res.json()).then(employees => setEmployees(employees));
     props.handleNavButton("add");
   }, []);
 
@@ -36,9 +40,10 @@ function Home(props) {
             spacing={{ xs: 2, md: 3 }}
             columns={{ xs: 4, sm: 8, md: 12 }}
           >
-            {Array.from(Array(60)).map((_, index) => (
+            {employees.map((employee, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
-                <Item>xs=2</Item>
+                {/* <Item>xs=2</Item> */}
+                <Card employee={employee}/>
               </Grid>
             ))}
           </Grid>
