@@ -30,14 +30,22 @@ const ExpandMore = styled((props) => {
 export default function RecipeReviewCard(props) {
   const [expanded, setExpanded] = React.useState(false);
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+//   function example(…) {
+//     return condition1 ? value1
+//          : condition2 ? value2
+//          : condition3 ? value3
+//          : value4;
+// }
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
-        title={`${props.employee.firstName} ${props.employee.lastName}`}
+        title={
+          props.employee.firstName && props.employee.lastName ? `${props.employee.firstName} ${props.employee.lastName}`
+          : props.employee.firstName ? `${props.employee.firstName}`
+          : props.employee.lastName ? `${props.employee.lastName}`
+          : 'Name Unknown'
+        }
         subheader={props.employee.title}
       />
       <CardMedia
@@ -48,17 +56,18 @@ export default function RecipeReviewCard(props) {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          <p>{props.employee.number}</p>
+          <p>{props.employee.email}</p>
+          <p>{props.employee.department}</p>
+          <p>{props.employee.address}</p>
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton
-          aria-label="add to favorites"
+          aria-label="delete Employee"
           onClick={(e) => {
             // call delete action/function
-            console.log('Employee Deleted!');
+            console.log("Employee Deleted!");
           }}
         >
           <DeleteIcon />
