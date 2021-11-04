@@ -55,7 +55,7 @@ function AddEmployee(props) {
         .then((data) => {
           console.log("Success:", data[0]);
           setEmployee(data[0]);
-          console.log(employee);
+          console.log(employee.number);
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -119,56 +119,60 @@ function AddEmployee(props) {
   // const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <AppBar navButton={"back"} />
+      <AppBar navButton={"back"} margin={25} />
       <Container
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          height: "85vh",
+          height: "50vh",
         }}
       >
         {/* <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}> */}
-        <Typography variant="h3" component="div" sx={{ marginBottom: 5 }}>
+        <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
           {props.formsPrefix === 'add' ? 'Add' : 'Edit'} Employee
         </Typography>
         <FormGroup autoFocus='off'>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="image">{props.formsPrefix === 'add' && 'Image URL'}</InputLabel>
-            <Input id="image" name="image" onChange={handleChange} value={employee.image} />
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="image">{(props.formsPrefix === 'add' || employee.image == undefined) && 'Image URL'}</InputLabel>
+            <Input id="image" name="image" onChange={handleChange} {...(employee.image !== undefined) && {value: employee.image}} />
           </FormControl>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="firstName">{props.formsPrefix === 'add' && 'First Name'}</InputLabel>
-            <Input id="firstName" name="firstName" onChange={handleChange} value={employee.firstName} />
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="firstName">{(props.formsPrefix === 'add' || employee.firstName == undefined )&& 'First Name'}</InputLabel>
+            <Input id="firstName" name="firstName" onChange={handleChange} {...(employee.firstName !== undefined) && {value: employee.firstName}} />
           </FormControl>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="lastName">{props.formsPrefix === 'add' && 'Last Name'}</InputLabel>
-            <Input id="lastName" name="lastName" onChange={handleChange} value={employee.lastName} />
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="lastName">{(props.formsPrefix === 'add' || employee.lastName == undefined) && 'Last Name'}</InputLabel>
+            <Input id="lastName" name="lastName" onChange={handleChange} {...(employee.lastName !== undefined) && {value: employee.lastName}} />
           </FormControl>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="title">{props.formsPrefix === 'add' && 'Job Title'}</InputLabel>
-            <Input id="title" name="title" onChange={handleChange} value={employee.title} />
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="title">{(props.formsPrefix === 'add' || employee.title == undefined) && 'Job Title'}</InputLabel>
+            <Input id="title" name="title" onChange={handleChange} {...(employee.title !== undefined) && {value: employee.title}} />
           </FormControl>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="department">{props.formsPrefix === 'add' && 'Department'}</InputLabel>
-            <Input id="department" name="department" onChange={handleChange} value={employee.department} />
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="department">{(props.formsPrefix === 'add' || employee.department == undefined) && 'Department'}</InputLabel>
+            <Input id="department" name="department" onChange={handleChange} {...(employee.department !== undefined) && {value: employee.department}} />
           </FormControl>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="email">{props.formsPrefix === 'add' && 'Email address'}</InputLabel>
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="number">{(props.formsPrefix === 'add' || employee.number == undefined) && 'Number'}</InputLabel>
+            <Input id="number" name="number" onChange={handleChange} {...(employee.number !== undefined) && {value: employee.number}} />
+          </FormControl>
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="email">{(props.formsPrefix === 'add' || employee.email == undefined) && 'Email address'}</InputLabel>
             <Input
               id="email"
               name="email"
               onChange={handleChange}
               aria-describedby="email-helper-text"
-              value={employee.email}
+              {...(employee.email !== undefined) && {value: employee.email}}
             />
             <FormHelperText id="email-helper-text">
               We'll never share your email.
             </FormHelperText>
           </FormControl>
-          <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="location">{props.formsPrefix === 'add' && 'Location'}</InputLabel>
-            <Input id="location" name="location" onChange={handleChange} value={employee.address}/>
+          <FormControl sx={{ marginBottom: 2 }}>
+            <InputLabel htmlFor="address">{(props.formsPrefix === 'add' || employee.address == undefined) && 'Location'}</InputLabel>
+            <Input id="address" name="address" onChange={handleChange} {...(employee.address !== undefined) && {value: employee.address}}/>
           </FormControl>
           <SaveButton handleSave={handleSave} />
         </FormGroup>

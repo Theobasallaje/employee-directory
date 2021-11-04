@@ -16,36 +16,38 @@ import EditIcon from "@mui/icons-material/Edit";
 import ShareIcon from "@mui/icons-material/Share";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { handleFormTitlePrefix } from '../../actions/index'
-
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
+import { handleFormTitlePrefix } from "../../actions/index";
 
 function employeeCard(props) {
-
-  //   function example(…) {
-  //     return condition1 ? value1
-  //          : condition2 ? value2
-  //          : condition3 ? value3
-  //          : value4;
-  // }
+  const handleDelete = () => {
+    console.log(props.employee._id);
+    fetch(`/api/employees/${props.employee._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Employee Deleted!");
+        window.location.reload(true);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         title={
-          props.employee.firstName && props.employee.lastName ? `${props.employee.firstName} ${props.employee.lastName}`
-            : props.employee.firstName ? `${props.employee.firstName}`
-              : props.employee.lastName ? `${props.employee.lastName}`
-                : 'Name Unknown'
+          props.employee.firstName && props.employee.lastName
+            ? `${props.employee.firstName} ${props.employee.lastName}`
+            : props.employee.firstName
+            ? `${props.employee.firstName}`
+            : props.employee.lastName
+            ? `${props.employee.lastName}`
+            : "Name Unknown"
         }
         subheader={props.employee.title}
       />
@@ -67,7 +69,7 @@ function employeeCard(props) {
         <IconButton
           aria-label="delete Employee"
           onClick={(e) => {
-            // call delete action/function
+            handleDelete();
             console.log("Employee Deleted!");
           }}
         >
@@ -79,7 +81,7 @@ function employeeCard(props) {
             // e.stopPropagation();
             // handleNavButton("home");
             console.log(props.employee._id);
-            props.handleFormTitlePrefix('edit');
+            props.handleFormTitlePrefix("edit");
           }}
           to={`/add/${props.employee._id}`}
         >

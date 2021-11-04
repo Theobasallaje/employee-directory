@@ -39,10 +39,14 @@ router.route('/api/employees/:id')
     })
     // Delete an existing employee
     .delete((req, res) => {
-        db.Employee.delteOne({ _id: req.params.id })
+        console.log('///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////');
+        console.log(req);
+        console.log('///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////');
+        db.Employee.deleteOne({ _id: req.params.id })
             .then((data) => {
                 res.json('Delete Successful!')
                 console.log("Employee Data:", data);
+                res.json(data);
             })
             .catch((err) => {
                 console.log('ERROR: ', err);

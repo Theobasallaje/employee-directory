@@ -40,11 +40,11 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   justifyContent: "space-between",
 }));
 
-function NavBar({ navButton, handleNavButton }) {
+function NavBar({ navButton, handleNavButton, margin }) {
   // const classes = useStyles();
   return (
     // <ThemeProvider theme={theme}>
-    <Box sx={{ flexGrow: 1, marginBottom: 15 }}>
+    <Box sx={{ flexGrow: 1, marginBottom: margin ? 25 : 15 }}>
       {/* <AppBar position="sticky" className={classes.header}> */}
       <AppBar position="fixed">
         <StyledToolbar>
