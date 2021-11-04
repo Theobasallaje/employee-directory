@@ -18,10 +18,14 @@ import { handleNavButton } from "../../actions";
 
 function Home(props) {
 
-  const [employees, setEmployees] = useState([]); 
+  const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetch('/api/employees').then(res => res.json()).then(employees => setEmployees(employees));
+    fetch('/api/employees').then(res => res.json()).then(employees => {
+      setEmployees(employees)
+      console.log(employees._id);
+      console.log(employees);
+    });
     props.handleNavButton("add");
   }, []);
 
@@ -43,7 +47,7 @@ function Home(props) {
             {employees.map((employee, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
                 {/* <Item>xs=2</Item> */}
-                <Card employee={employee}/>
+                <Card employee={employee} />
               </Grid>
             ))}
           </Grid>
@@ -54,9 +58,9 @@ function Home(props) {
 }
 
 const mapStateToProps = (state) => ({
-    navButton: state.buttons.navButton,
-  });
-  
-  export default connect(mapStateToProps, {
-    handleNavButton,
-  })(Home);
+  navButton: state.buttons.navButton,
+});
+
+export default connect(mapStateToProps, {
+  handleNavButton,
+})(Home);

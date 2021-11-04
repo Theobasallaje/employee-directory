@@ -1,5 +1,6 @@
 import {
     NAV_BUTTON,
+    TITLE_PREFIX
   } from "./types";
   
   // Button actions
@@ -9,6 +10,15 @@ import {
       payload: button,
     };
   };
+  
+  // Form actions
+  export const handleFormTitlePrefix = (prefix) => {
+    return {
+      type: TITLE_PREFIX,
+      payload: prefix,
+    };
+  };
+  
   
 //   export const changeEditor = (editorState) => async (dispatch, getState) => {
 //     console.log("editorState: ", editorState);

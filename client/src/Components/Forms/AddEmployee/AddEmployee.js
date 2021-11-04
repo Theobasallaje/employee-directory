@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { grey } from "@mui/material/colors";
-import { handleNavButton } from "../../../actions";
+import { handleNavButton, handleFormTitlePrefix } from "../../../actions";
 
 const theme = createTheme({
   palette: {
@@ -27,32 +27,85 @@ const theme = createTheme({
 
 function AddEmployee(props) {
   const [employee, setEmployee] = useState({});
-
+  const { id } = useParams();
+  console.log(id);
   const redirect = () => {
+    console.log('Redirect Ran!');
     props.history.push("/");
   };
 
   useEffect(() => {
     props.handleNavButton("home");
-  }, []);
+    if (id) {
+      props.handleFormTitlePrefix("edit");
+      console.log('set EDIT');
+    } else {
+      props.handleFormTitlePrefix("add");
+    }
+
+    if (props.formsPrefix === 'edit') {
+      console.log('ran fetch for specific employee');
+      fetch(`/api/employees/${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data[0]);
+          setEmployee(data[0]);
+          console.log(employee);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
+    return () => {
+      props.handleFormTitlePrefix("add");
+    }
+  }, [props.formsPrefix]);
 
   const handleSave = (e) => {
     console.log(employee);
-    fetch("/api/employees", {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(employee),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        redirect();
+    console.log(props.formsPrefix);
+    if (props.formsPrefix === 'add') {
+
+      console.log('POST');
+      fetch("/api/employees", {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(employee),
       })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          redirect();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    } else {
+      console.log('PUT');
+      fetch(`/api/employees/${id}`, {
+        method: "PUT", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(employee),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Success:", data);
+          redirect();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
   };
 
   const handleChange = (e) => {
@@ -77,44 +130,45 @@ function AddEmployee(props) {
       >
         {/* <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}> */}
         <Typography variant="h3" component="div" sx={{ marginBottom: 5 }}>
-          Add Employee
+          {props.formsPrefix === 'add' ? 'Add' : 'Edit'} Employee
         </Typography>
-        <FormGroup>
+        <FormGroup autoFocus='off'>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="image">Image URL</InputLabel>
-            <Input id="image" name="image" onChange={handleChange} />
+            <InputLabel htmlFor="image">{props.formsPrefix === 'add' && 'Image URL'}</InputLabel>
+            <Input id="image" name="image" onChange={handleChange} value={employee.image} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="firstName">First Name</InputLabel>
-            <Input id="firstName" name="firstName" onChange={handleChange} />
+            <InputLabel htmlFor="firstName">{props.formsPrefix === 'add' && 'First Name'}</InputLabel>
+            <Input id="firstName" name="firstName" onChange={handleChange} value={employee.firstName} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="lastName">Last Name</InputLabel>
-            <Input id="lastName" name="lastName" onChange={handleChange} />
+            <InputLabel htmlFor="lastName">{props.formsPrefix === 'add' && 'Last Name'}</InputLabel>
+            <Input id="lastName" name="lastName" onChange={handleChange} value={employee.lastName} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="title">Job Title</InputLabel>
-            <Input id="title" name="title" onChange={handleChange} />
+            <InputLabel htmlFor="title">{props.formsPrefix === 'add' && 'Job Title'}</InputLabel>
+            <Input id="title" name="title" onChange={handleChange} value={employee.title} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="department">Department</InputLabel>
-            <Input id="department" name="department" onChange={handleChange} />
+            <InputLabel htmlFor="department">{props.formsPrefix === 'add' && 'Department'}</InputLabel>
+            <Input id="department" name="department" onChange={handleChange} value={employee.department} />
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="email">Email address</InputLabel>
+            <InputLabel htmlFor="email">{props.formsPrefix === 'add' && 'Email address'}</InputLabel>
             <Input
               id="email"
               name="email"
               onChange={handleChange}
               aria-describedby="email-helper-text"
+              value={employee.email}
             />
             <FormHelperText id="email-helper-text">
               We'll never share your email.
             </FormHelperText>
           </FormControl>
           <FormControl sx={{ marginBottom: 5 }}>
-            <InputLabel htmlFor="location">Location</InputLabel>
-            <Input id="location" name="location" onChange={handleChange} />
+            <InputLabel htmlFor="location">{props.formsPrefix === 'add' && 'Location'}</InputLabel>
+            <Input id="location" name="location" onChange={handleChange} value={employee.address}/>
           </FormControl>
           <SaveButton handleSave={handleSave} />
         </FormGroup>
@@ -125,8 +179,10 @@ function AddEmployee(props) {
 
 const mapStateToProps = (state) => ({
   navButton: state.buttons.navButton,
+  formsPrefix: state.forms.formTitle,
 });
 
 export default connect(mapStateToProps, {
   handleNavButton,
+  handleFormTitlePrefix,
 })(AddEmployee);

@@ -1,4 +1,5 @@
 import * as React from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -15,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ShareIcon from "@mui/icons-material/Share";
 import DeleteIcon from "@mui/icons-material/Delete";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { handleFormTitlePrefix } from '../../actions/index'
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -27,24 +29,23 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-export default function RecipeReviewCard(props) {
-  const [expanded, setExpanded] = React.useState(false);
+function employeeCard(props) {
 
-//   function example(…) {
-//     return condition1 ? value1
-//          : condition2 ? value2
-//          : condition3 ? value3
-//          : value4;
-// }
+  //   function example(…) {
+  //     return condition1 ? value1
+  //          : condition2 ? value2
+  //          : condition3 ? value3
+  //          : value4;
+  // }
 
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
         title={
           props.employee.firstName && props.employee.lastName ? `${props.employee.firstName} ${props.employee.lastName}`
-          : props.employee.firstName ? `${props.employee.firstName}`
-          : props.employee.lastName ? `${props.employee.lastName}`
-          : 'Name Unknown'
+            : props.employee.firstName ? `${props.employee.firstName}`
+              : props.employee.lastName ? `${props.employee.lastName}`
+                : 'Name Unknown'
         }
         subheader={props.employee.title}
       />
@@ -77,8 +78,10 @@ export default function RecipeReviewCard(props) {
           onClick={(e) => {
             // e.stopPropagation();
             // handleNavButton("home");
+            console.log(props.employee._id);
+            props.handleFormTitlePrefix('edit');
           }}
-          to="/add"
+          to={`/add/${props.employee._id}`}
         >
           <IconButton aria-label="share">
             <EditIcon />
@@ -88,3 +91,11 @@ export default function RecipeReviewCard(props) {
     </Card>
   );
 }
+
+const mapStateToProps = (state) => ({
+  formsPrefix: state.forms.formTitlePrefix,
+});
+
+export default connect(mapStateToProps, {
+  handleFormTitlePrefix,
+})(employeeCard);
