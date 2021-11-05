@@ -69,6 +69,7 @@ function employeeCard(props) {
         <IconButton
           aria-label="delete Employee"
           onClick={(e) => {
+            e.preventDefault();
             handleDelete();
             console.log("Employee Deleted!");
           }}

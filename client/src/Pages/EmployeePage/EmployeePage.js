@@ -8,10 +8,15 @@ import {
   InputLabel,
   FormHelperText,
   Container,
+  Box,
+  Grid,
+  CardContent,
+  CardMedia,
+  Card,
 } from "@mui/material";
 import AppBar from "../../Components/AppBar/AppBar";
 import SaveButton from "../../Components/Forms/SaveButton/SaveButton";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider, useTheme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import { makeStyles } from "@mui/styles";
 import { grey } from "@mui/material/colors";
@@ -69,47 +74,66 @@ function EmployeePage(props) {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar navButton={"back"} margin={25} />
-      <Container
+      <AppBar navButton={"back"} />
+      <Card>
+        <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>
+          <CardMedia
+            component="img"
+            sx={{ height: "80vh", width: '50vw' }}
+            image={employee.image!==undefined && `${employee.image}`}
+            alt="Employee Profile"
+          />
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <CardContent sx={{ flex: "1 0 auto" }}>
+              <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
+                {`${employee.firstName} ${employee.lastName}`}
+              </Typography>
+              <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
+                {employee.title}
+              </Typography>
+              <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
+                {employee.number}
+              </Typography>
+              <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
+                {employee.email}
+              </Typography>
+              <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
+                {employee.department}
+              </Typography>
+              <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
+                {employee.address}
+              </Typography>
+            </CardContent>
+          </Box>
+        </Box>
+      </Card>
+      {/* <Container
+        maxWidth={"xs"}
         sx={{
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
+          // alignItems: "center",
           height: "50vh",
         }}
       >
-        {/* <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}> */}
-        <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-          {employee.name}
-        </Typography>
-        <div style={{ display: "flex", justifyContent: 'space-around' }}>
-          <img
-            style={{ width: 500 }}
-            src={`${employee.image}`}
-            alt={"Employe Profile"}
-          />
-          <div>
-            <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-              {`${employee.firstName} ${employee.lastName}`}
-            </Typography>
-            <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-              {employee.title}
-            </Typography>
-            <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-              {employee.number}
-            </Typography>
-            <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-              {employee.email}
-            </Typography>
-            <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-              {employee.department}
-            </Typography>
-            <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
-              {employee.address}
-            </Typography>
-          </div>
-        </div>
-      </Container>
+        <Box style={{ display: "flex", justifyContent: "space-around" }}>
+          <Box>
+            <Grid container spacing={2}>
+              <Grid item xs={8}>
+                <img
+                  style={{ width: "100%" }}
+                  src={`${employee.image}`}
+                  alt={"Employe Profile"}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                
+              </Grid>
+            </Grid>
+          </Box>
+        </Box> */}
+      {/* </Container> */}
     </ThemeProvider>
   );
 }

@@ -44,13 +44,20 @@ function NavBar({ navButton, handleNavButton, margin }) {
   // const classes = useStyles();
   return (
     // <ThemeProvider theme={theme}>
-    <Box sx={{ flexGrow: 1, marginBottom: margin ? 25 : 15 }}>
+    <Box
+      sx={{
+        flexGrow: 1,
+        marginBottom: (margin === 25 ? 25 : 15),
+      }}
+    >
       {/* <AppBar position="sticky" className={classes.header}> */}
       <AppBar position="fixed">
         <StyledToolbar>
           <Link style={{ textDecoration: "none" }} to="/">
             <img
-              onClick={() => navButton === "add" && window.location.reload(true)}
+              onClick={() =>
+                navButton === "add" && window.location.reload(true)
+              }
               style={{ width: 200 }}
               src={`${process.env.PUBLIC_URL}/images/postlight-logo-1480-x-512.png`}
               alt={"PostLight Logo"}
