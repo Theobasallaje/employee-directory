@@ -17,17 +17,23 @@ import { handleNavButton } from "../../actions";
 // }));
 
 function Home(props) {
-
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
-    fetch('/api/employees').then(res => res.json()).then(employees => {
-      setEmployees(employees)
-      console.log(employees._id);
-      console.log(employees);
-    });
+    console.log(props.employeeResults);
+    if (props.employeeResults.length > 0) {
+      setEmployees(props.employeeResults);
+    } else {
+      fetch("/api/employees")
+        .then((res) => res.json())
+        .then((employees) => {
+          setEmployees(employees);
+          console.log(employees._id);
+          console.log(employees);
+        });
+    }
     props.handleNavButton("add");
-  }, []);
+  }, [props.employeeResults]);
 
   return (
     <div className="App">
@@ -59,6 +65,7 @@ function Home(props) {
 
 const mapStateToProps = (state) => ({
   navButton: state.buttons.navButton,
+  employeeResults: state.search.employeeSearch,
 });
 
 export default connect(mapStateToProps, {

@@ -48,7 +48,13 @@ function NavBar({ navButton, handleNavButton, margin }) {
       {/* <AppBar position="sticky" className={classes.header}> */}
       <AppBar position="fixed">
         <StyledToolbar>
-          <img style={{width: 200}} src={`${process.env.PUBLIC_URL}/images/postlight-logo-1480-x-512.png`} alt={'PostLight Logo'}/>
+          <Link style={{ textDecoration: "none" }} to="/">
+            <img
+              style={{ width: 200 }}
+              src={`${process.env.PUBLIC_URL}/images/postlight-logo-1480-x-512.png`}
+              alt={"PostLight Logo"}
+            />
+          </Link>
           {/* <IconButton
             size="large"
             edge="start"

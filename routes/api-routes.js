@@ -5,7 +5,7 @@ const db = require("../models");
 router.route('/api/employees')
     // Retrieve all employees
     .get((req, res) => {
-        db.Employee.find({}).then(employees => res.json(employees)).catch(err => res.json(err));
+        db.Employee.find({}).then(employees => res.json(employees.reverse())).catch(err => res.json(err));
     })
     // Create an employee
     .post((req, res) => {
@@ -13,8 +13,20 @@ router.route('/api/employees')
         db.Employee.create(req.body).then(employees => res.json(employees)).catch(err => res.json(err));
     })
 
+router.route('/api/employees/search/:query')
+    // Retrieve all employees with first name that match search term
+    .get((req, res) => {
+        console.log('///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////');
+        console.log(req.params.query);
+        console.log(`/${req.params.query}/i`);
+        console.log('///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////');
+        db.Employee.find({ 'firstName' : { '$regex' : req.params.query, '$options' : 'i' } }).then(employees => res.json(employees.reverse())).catch(err => res.json(err));
+        // db.Employee.find({"firstName" : {$regex : `.*${req.params.query}.*`}}).then(employees => res.json(employees)).catch(err => res.json(err));
+        // db.Employee.find({"firstName" : {$regex : `^((?!.*${req.params.query}).*)*$`, $options : 'i'}}).then(employees => res.json(employees)).catch(err => res.json(err));
+    })
+
 router.route('/api/employees/:id')
-    // Retrieve an existing employee
+    // Retrieve an existing employee by id
     .get((req, res) => {
         db.Employee.find({ _id: req.params.id })
             .then((employee) => {
