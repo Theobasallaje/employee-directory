@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import { Container } from "@mui/material";
@@ -53,7 +54,16 @@ function Home(props) {
             {employees.map((employee, index) => (
               <Grid item xs={2} sm={4} md={4} key={index}>
                 {/* <Item>xs=2</Item> */}
-                <Card employee={employee} />
+                <Link
+                  style={{ textDecoration: "none" }}
+                  // onClick={(e) => {
+                  //   console.log(props.employee._id);
+                  //   props.handleFormTitlePrefix("edit");
+                  // }}
+                  to={`/employee/${employee._id}`}
+                >
+                  <Card employee={employee} />
+                </Link>
               </Grid>
             ))}
           </Grid>

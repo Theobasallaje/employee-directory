@@ -78,8 +78,6 @@ function employeeCard(props) {
         <Link
           style={{ textDecoration: "none" }}
           onClick={(e) => {
-            // e.stopPropagation();
-            // handleNavButton("home");
             console.log(props.employee._id);
             props.handleFormTitlePrefix("edit");
           }}
