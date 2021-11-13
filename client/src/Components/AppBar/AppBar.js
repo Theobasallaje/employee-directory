@@ -58,8 +58,8 @@ function NavBar({ navButton, handleNavButton, margin }) {
               onClick={() =>
                 navButton === "add" && window.location.reload(true)
               }
-              style={{ width: 200 }}
-              src={`${process.env.PUBLIC_URL}/images/postlight-logo-1480-x-512.png`}
+              style={{ width: 125 }}
+              src={`${process.env.PUBLIC_URL}/images/logo.png`}
               alt={"PostLight Logo"}
             />
           </Link>
