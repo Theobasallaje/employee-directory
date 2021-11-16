@@ -47,7 +47,7 @@ function NavBar({ navButton, handleNavButton, margin }) {
     <Box
       sx={{
         flexGrow: 1,
-        marginBottom: (margin === 25 ? 25 : 15),
+        marginBottom: (margin === 35 ? 25 : 15),
       }}
     >
       {/* <AppBar position="sticky" className={classes.header}> */}
@@ -58,7 +58,7 @@ function NavBar({ navButton, handleNavButton, margin }) {
               onClick={() =>
                 navButton === "add" && window.location.reload(true)
               }
-              style={{ width: 125 }}
+              style={{ width: 50 }}
               src={`${process.env.PUBLIC_URL}/images/logo.png`}
               alt={"PostLight Logo"}
             />

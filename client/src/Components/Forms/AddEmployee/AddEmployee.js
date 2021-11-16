@@ -119,7 +119,7 @@ function AddEmployee(props) {
   // const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <AppBar navButton={"back"} margin={25} />
+      <AppBar navButton={"back"} margin={35} />
       <Container
         sx={{
           display: "flex",
@@ -129,7 +129,7 @@ function AddEmployee(props) {
         }}
       >
         {/* <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}> */}
-        <Typography variant="h4" component="div" sx={{ marginBottom: 2 }}>
+        <Typography variant="h5" component="div" sx={{ marginBottom: 2 }}>
           {props.formsPrefix === 'add' ? 'Add' : 'Edit'} Employee
         </Typography>
         <FormGroup autoFocus='off'>
